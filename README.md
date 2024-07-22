@@ -1,3 +1,6 @@
+# Overview
+This repository contains four Jupyter Notebooks for Hydrogen Storage Reactors (HSRs) data analysis. Here below there is a detailed explanation of the files used and code documentation for each one of the scripts. The main difference between them is the data files which were processed and the different requirements in the data handling. More detailed definition of the custom functions and methods can be found directly in the individual notebooks.
+
 # ModularRig_DataVisualisation_V2.ipynb Documentation
 
 ## Data Files
