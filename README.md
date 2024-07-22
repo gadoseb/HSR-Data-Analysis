@@ -1,5 +1,5 @@
 # ModularRig_DataVisualisation_V2.ipynb Documentation
-## Data Information
+
 ## Data Files
 
 | Type | Sample Name | Name Structure | Information | Code ID |
