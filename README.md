@@ -280,30 +280,54 @@ This Python script facilitates the analysis of data collected from a modular rig
 # HyTEST_Beta2_DataAnalysis.ipynb Documentation
 
 ## Data Information
-Shape of the dataframe is:  (14520, 22) → 22 variables
 Data types of the dataframe are:  
 
-timestamp                            float64      UNIX Timestamp
-B1M1AvgReactorTemp         int64         see file below for the rest
-S1StackExitClntTemp            int64
-B1M1HyFlowActual              int64
-B1M1ReactorHeadTemp      int64
-B1M1ReactorBaseTemp       int64
-B1M1ClntInMfldTemp          int64
-B1M1ClntOutMfldTemp       int64
-S1HeaterL1Current               int64
-S1ChillerL1Current               int64
-S1StackEntryClntTemp         int64
-UPT1Pressure                       float64
-UTC1Temperature                float64
-ElectrolyserH2Flow               float64
-ElectrolyserStackVoltage      float64
-ElectrolyserStackCurrent      float64
-ElectrolyserTemperature       float64
-ElectrolyserOutletPressure    float64
-B1M1ClntInMfldTemp.1         int64
-B1M1ClntOutMfldTemp.1      int64
-B1M1ReactorHeadTemp.1      int64
-B1M1ReactorBaseTemp.1       int64
+| label | no_quantity_label | type | is_time_series | group | physical_quantity | min | max | units | offset | scale |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Module pressure | Module | sensor | TRUE |  | pressure | 0 | 16.0 | bar | 0 | 1 |
+| Rig ambient temperature | Rig ambient | sensor | TRUE |  | temperature | 0 | 100 | °C | 0 | 1 |
+| Water bath temperature | Water bath | sensor | TRUE |  | temperature | 0 | 100 | °C | 0 | 1 |
+| Vent. encl. ambient temperature | Vent. encl. ambient | sensor | TRUE |  | temperature | 0 | 100 | °C | 0 | 1 |
+| Coolant manifold temperature (in) | Coolant manifold (in) | sensor | TRUE |  | temperature | 0 | 100 | °C | 0 | 1 |
+| Coolant manifold temperature (out) | Coolant manifold (out) | sensor | TRUE |  | temperature | 0 | 100 | °C | 0 | 1 |
+| Module temperature (top) | Module (top) | sensor | TRUE |  | temperature | 0 | 100 | °C | 0 | 1 |
+| Module temperature (base) | Module (base) | sensor | TRUE |  | temperature | 0 | 100 | °C | 0 | 1 |
+| Module flow rate | Module | sensor | TRUE |  | flow rate | 0 | 100 | nl/min | 0 | 1 |
+| Electrolyser stack voltage | Electrolyser stack | sensor | TRUE |  | voltage | 0 | 100 | V | 0 | 1 |
+| Electrolyser outlet pressure | Electrolyser outlet | sensor | TRUE |  | pressure | 0 | 100 | bar | 0 | 1 |
+| Electrolyser stack temperature | Electrolyser stack | sensor | TRUE |  | temperature | 0 | 80 | °C | 0 | 1 |
+| Electrolyser stack current | Electrolyser stack | sensor | TRUE |  | current | 0 | 100 | A | 0 | 1 |
+| Electrolyser flow rate | Electrolyser | sensor | TRUE |  | flow rate | 0 | 100 | nl/min | 0 | 0.01666666667 |
+| Module flow rate setpoint | Module setpoint | status | TRUE |  | flow rate | 0 | 100 | nl/min | 0 | 1 |
+| Stack SoC | Stack | status | TRUE |  | SoC | 0 | 100 | % | 0 | 1 |
+| Module SoC | Module | status | TRUE |  | SoC | 0 | 100 | % | 0 | 1 |
+| Unit op mode |  | status | TRUE |  |  | 0 | 13 |  | 0 | 1 |
+| Stack op mode |  | status | FALSE |  |  | 0 | 13 |  | 0 | 1 |
+| Bank op mode |  | status | FALSE |  |  | 0 | 13 |  | 0 | 1 |
+| Module op mode |  | status | FALSE |  |  | 0 | 13 |  | 0 | 1 |
+| Module op mode request |  | status | FALSE |  |  | 0 | 13 |  | 0 | 1 |
+| Module op mode sync |  | status | FALSE |  |  |  |  |  | 0 | 1 |
+| Electrolyser production rate |  | status | FALSE |  |  | 60 | 100 | % |  |  |
+| Remote control ready |  | status | FALSE |  |  |  |  |  |  |  |
+| Remote control error |  | status | FALSE |  |  |  |  |  |  |  |
+| Remote control enabled |  | control | FALSE |  |  |  |  |  |  |  |
+
+One of the most important column is related to the OpMode states:
+
+opModes = {
+1: "Startup Maintenance",
+2: "Standby",
+4: "Cooling",
+5: "Charge",
+6: "Warming",
+7: "Discharge",
+8: "Flush Fill",
+9: "Error",
+10: "Shutdown",
+12: "Vent",
+13: "Flush Expel"}
+
+From the chemistry point of view, what we are interested in the most is cooling-charge and warming-discharge, the other opModes are implemented to match scaled-up operations.
 
 ## Notebook Information
+This script offers functionalities to process raw data, merge multiple dataframes, visualize data through scatter plots, and export processed data subsets along with corresponding plots for further analysis and reporting. Custom functions were implemented to filter the dataset according to the selected operation mode.
